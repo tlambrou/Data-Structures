@@ -21,7 +21,7 @@ def decode(str_num, base):
         else:
             value = int(value)
         placeholder = digit - 1
-        result = result + (value * base ** placeholder)
+        result += value * base ** placeholder
     return result
 
 def encode(num, base):
@@ -68,7 +68,7 @@ def encode(num, base):
             remainder_string = '(' + str(remainder) + ')'
         else:
             remainder_string = str(remainder)
-        result = remainder_string + result
+        result += remainder_string
         current = current / base
     return result
 
