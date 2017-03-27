@@ -10,20 +10,43 @@ def is_palindrome(text):
     # implement is_palindrome_iterative and is_palindrome_recursive below, then
     # change this to call your implementation to verify it passes all tests
     assert isinstance(text, str)
-    return is_palindrome_iterative(text)
+    return is_palindrome_recursive(text)
     # return is_palindrome_recursive(text)
 
 
 def is_palindrome_iterative(text):
     # TODO: implement the is_palindrome function iteratively here
-    pass
+    text = text.replace(" ", "").translate(None, string.punctuation)
+    symetrical_chars = 0
+    for i in range(0, len(text) - 1):
+        if text[i].lower() == text[-i - 1].lower():
+            symetrical_chars += 1
+        else:
+            return False
+    print("Symetrical chars", symetrical_chars)
+    return True
+
     # once implemented, change is_palindrome to call is_palindrome_iterative
     # to verify that your iterative implementation passes all tests
 
 
 def is_palindrome_recursive(text, left=None, right=None):
     # TODO: implement the is_palindrome function recursively here
-    pass
+    text = text.replace(" ", "").translate(None, string.punctuation)
+    if text == '':
+        return True
+    if left == None:
+        left = 0
+    if right == None:
+        right = len(text) - 1
+    if text[left].lower() == text[right].lower():
+        if right == 0:
+            return True
+        else:
+            return is_palindrome_recursive(text, left + 1, right - 1)
+    else:
+        return False
+
     # once implemented, change is_palindrome to call is_palindrome_recursive
     # to verify that your iterative implementation passes all tests
 
