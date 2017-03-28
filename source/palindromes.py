@@ -48,7 +48,7 @@ def is_palindrome_recursive(text, left=None, right=None):
         return False
 
     # once implemented, change is_palindrome to call is_palindrome_recursive
-    # to verify that your iterative implementation passes all tests
+    # to verify that your recursive implementation passes all tests
 
 
 def main():
