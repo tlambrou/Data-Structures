@@ -66,7 +66,7 @@ class LinkedListTest(unittest.TestCase):
             ll.get_at_index(3)
             ll.get_at_index(-1)
 
-    def test_insert_at_index(self):
+    def D_test_insert_at_index(self):
         ll = LinkedList()
         ll.insert_at_index(0, 'B')
         assert ll.head.data == 'B'

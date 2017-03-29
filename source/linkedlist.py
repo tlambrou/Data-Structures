@@ -75,6 +75,22 @@ class LinkedList(object):
         if not (0 <= index < self.size):
             raise ValueError('List index out of range: {}'.format(index))
         # TODO: Find the node at the given index and return the node's data
+        # Create a node count to check against the index
+        node_count = 0
+        # Start at the head node
+        current = self.head
+        # Loop until the current node is None, which is one node past the tail
+        while current is not None:
+            # Check to see if the current node count is the same as the index
+            if node_count == index:
+                # If they are equal return the data at the current node
+                return current.data
+            # If the index and the node count do not match
+            else:
+                # Skip to the next node
+                current = current.next
+                # Increment the node count
+                node_count += 1
 
     def insert_at_index(self, index, item):
         """Insert the given item at the given index in this linked list, or
@@ -97,6 +113,8 @@ class LinkedList(object):
             self.tail.next = new_node
         # Update tail to new node regardless
         self.tail = new_node
+        # Update the size
+        self.size += 1
 
     def prepend(self, item):
         """Insert the given item at the head of this linked list"""
@@ -111,6 +129,8 @@ class LinkedList(object):
             new_node.next = self.head
         # Update head to new node regardless
         self.head = new_node
+        # Update the size
+        self.size += 1
 
     def delete(self, item):
         """Delete the given item from this linked list, or raise ValueError"""
@@ -152,6 +172,8 @@ class LinkedList(object):
                     previous.next = None
                 # Update tail to the previous node regardless
                 self.tail = previous
+            # Update the size
+            self.size -= 1
         else:
             # Otherwise raise an error to tell the user that delete has failed
             raise ValueError('Item not found: {}'.format(item))
