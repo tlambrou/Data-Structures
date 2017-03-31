@@ -22,29 +22,52 @@ class LinkedStack(object):
     def is_empty(self):
         """Return True if this stack is empty, or False otherwise"""
         # TODO: Check if empty
-        pass
+        if self.list.size == 0:
+            return True
+        elif self.list.size > 0:
+            return False
 
     def length(self):
         """Return the number of items in this stack"""
         # TODO: Count number of items
-        pass
+        return self.list.size
 
     def push(self, item):
         """Insert the given item on the top of this stack"""
         # TODO: Push given item
-        pass
+        self.list.append(item)
 
     def peek(self):
         """Return the item on the top of this stack without removing it,
         or None if this stack is empty"""
         # TODO: Return top item, if any
-        pass
+        if self.is_empty():
+            return None
+        else:
+            return self.list.tail.data
 
     def pop(self):
         """Remove and return the item on the top of this stack,
         or raise ValueError if this stack is empty"""
         # TODO: Remove and return top item, if any
-        pass
+
+        if self.is_empty() is False and self.list.size > 1:
+            current = self.list.head
+            while current.next != self.list.tail:
+                current = current.next
+            return_value = self.list.tail.data
+            self.list.tail = current
+            current.next = None
+            self.list.size -= 1
+            return return_value
+        elif self.list.size == 1:
+            return_value = self.list.tail.data
+            self.list.tail = None
+            self.list.head = None
+            self.list.size -= 1
+            return return_value
+        else:
+            raise ValueError('Stack is empty')
 
 
 # implement ArrayStack below, then change the assignment at the bottom
@@ -66,32 +89,41 @@ class ArrayStack(object):
     def is_empty(self):
         """Return True if this stack is empty, or False otherwise"""
         # TODO: Check if empty
-        pass
+        return len(self.list) is 0
 
     def length(self):
         """Return the number of items in this stack"""
         # TODO: Count number of items
-        pass
+        return len(self.list)
 
     def push(self, item):
         """Insert the given item on the top of this stack"""
         # TODO: Insert given item
-        pass
+        self.list.append(item)
 
     def peek(self):
         """Return the item on the top of this stack without removing it,
         or None if this stack is empty"""
         # TODO: Return top item, if any
-        pass
+        index = len(self.list)
+        if index == 0:
+            return None
+        else:
+            return self.list[index - 1]
 
     def pop(self):
         """Remove and return the item on the top of this stack,
         or raise ValueError if this stack is empty"""
         # TODO: Remove and return top item, if any
-        pass
+        if len(self.list) == 0:
+            raise ValueError('Stack is empty')
+        else:
+            return_value = self.peek()
+            self.list.pop()
+            return return_value
 
 
 # implement LinkedStack and ArrayStack above, then change the assignment below
 # to use each of your Stack implementations to verify they each pass all tests
-Stack = LinkedStack
-# Stack = ArrayStack
+# Stack = LinkedStack
+Stack = ArrayStack
