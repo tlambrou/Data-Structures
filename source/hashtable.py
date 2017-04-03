@@ -39,13 +39,13 @@ class HashTable(object):
         elif new_size is 0:  # O(1)
             new_size = self.size / 2  # Half size  # O(1)
         # TODO: Get a list to temporarily hold all current key-value entries
-        values = self.items()  # O(n)
+        tuples = self.items()  # O(n)
         # TODO: Create a new list of new_size total empty linked list buckets
         self.buckets = [LinkedList() for i in range(new_size)]    # O(b)
         self.size = 0   # O(1)
         # TODO: Insert each key-value entry into the new list of buckets,
         # which will rehash them into a new bucket index based on the new size
-        for key, value in values:  # O(n)
+        for key, value in tuples:  # O(n) Total Loop Time: O(n^2)
             self.set(key, value)   # O(n)
 
 
