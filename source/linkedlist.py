@@ -134,21 +134,21 @@ class LinkedList(object):
                 # Increment the node count
                 next_node_index += 1
 
-    def append(self, item):
+    def append(self, item):  # O(1)
         """Insert the given item at the tail of this linked list"""
         # Create a new node to hold the given item
-        new_node = Node(item)
+        new_node = Node(item)  # O(1)
         # Check if this linked list is empty
-        if self.is_empty():
+        if self.is_empty():  # O(1)
             # Assign head to new node
-            self.head = new_node
-        else:
+            self.head = new_node  # O(1)
+        else:  # O(1)
             # Otherwise insert new node after tail
-            self.tail.next = new_node
+            self.tail.next = new_node  # O(1)
         # Update tail to new node regardless
-        self.tail = new_node
+        self.tail = new_node  # O(1)
         # Update the size
-        self.size += 1
+        self.size += 1  # O(1)
 
     def prepend(self, item):
         """Insert the given item at the head of this linked list"""
@@ -166,69 +166,69 @@ class LinkedList(object):
         # Update the size
         self.size += 1
 
-    def delete(self, item):
+    def delete(self, item):  # O(n)
         """Delete the given item from this linked list, or raise ValueError"""
         # Start at the head node
-        current = self.head
+        current = self.head  # O(1)
         # Keep track of the node before the one containing the given tiem
-        previous = None
+        previous = None  # O(1)
         # Create a flag to track if we have found the given item
-        found = False
+        found = False  # O(1)
         # Loop until we have found the given item or the current node is None
-        while not found and current is not None:
+        while not found and current is not None:  # O(n)
             # Check if the current node's data matches the given item
-            if current.data == item:
+            if current.data == item:  # O(1)
                 # We found data matching the given item, so update found flag
-                found = True
-            else:
+                found = True  # O(1)
+            else:  # O(1)
                 # Skip to the next node
-                previous = current
-                current = current.next
+                previous = current  # O(1)
+                current = current.next  # O(1)
         # Check if we found the given item or we never did and reached the tail
-        if found:
+        if found:  # O(1)
             # Check if we found a node in the middle of this linked list
-            if current is not self.head and current is not self.tail:
+            if current is not self.head and current is not self.tail:  # O(1)
                 # Update the previous node to skip around the found node
-                previous.next = current.next
+                previous.next = current.next  # O(1)
                 # Unlink the found node from its next node
-                current.next = None
+                current.next = None  # O(1)
             # Check if we found a node at the head
-            if current is self.head:
+            if current is self.head:  # O(1)
                 # Update head to the next node
-                self.head = current.next
+                self.head = current.next  # O(1)
                 # Unlink the found node from the next node
-                current.next = None
+                current.next = None  # O(1)
             # Check if we found a node at the tail
-            if current is self.tail:
+            if current is self.tail:  # O(1)
                 # Check if there is a node before the found node
-                if previous is not None:
+                if previous is not None:  # O(1)
                     # Unlink the previous node from the found node
-                    previous.next = None
+                    previous.next = None  # O(1)
                 # Update tail to the previous node regardless
-                self.tail = previous
+                self.tail = previous  # O(1)
             # Update the size
-            self.size -= 1
-        else:
+            self.size -= 1  # O(1)
+        else:  # O(1)
             # Otherwise raise an error to tell the user that delete has failed
-            raise ValueError('Item not found: {}'.format(item))
+            raise ValueError('Item not found: {}'.format(item))  # O(1)
 
-    def find(self, quality):
+    def find(self, quality):  # O(n)
         """Return an item from this linked list satisfying the given quality.
         Best case running time: Omega(1) if item is near the head of the list.
         Worst case running time: O(n) if item is near the tail of the list or
         not present and we need to loop through all n nodes in the list."""
         # Start at the head node
-        current = self.head  # Constant time to assign a variable reference
+        current = self.head  # Constant time to assign a variable reference  # O(1)
         # Loop until the current node is None, which is one node past the tail
-        while current is not None:  # Up to n iterations if we don't exit early
+        while current is not None:  # Up to n iterations if we don't exit early  # O(n)
             # Check if the current node's data satisfyies the quality function
-            if quality(current.data):  # Constant time to call quality function
+            if quality(current.data):  # Constant time to call quality function  # O(1)
                 # We found data satisfying the quality function, so exit early
-                return current.data  # Constant time to return data
+                return current.data  # Constant time to return data  # O(1)
             # Skip to the next node
-            current = current.next  # Constant time to reassign a variable
+            current = current.next  # Constant time to reassign a variable  # O(1)
         # We never found data satisfying quality, but have to return something
-        return None  # Constant time to return None
+        return None  # Constant time to return None  # O(1)
 
 
 def test_linked_list():
