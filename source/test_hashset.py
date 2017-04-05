@@ -21,89 +21,74 @@ class HashSetTest(unittest.TestCase):
         hs.remove(42)
         assert hs.size() == 6
 
-    def DISABLED_test_contains(self):
-        ht = HashTable()
-        ht.set('I', 1)
-        ht.set('V', 5)
-        ht.set('X', 10)
-        assert ht.contains('I') is True
-        assert ht.contains('V') is True
-        assert ht.contains('X') is True
-        assert ht.contains('A') is False
+    def test_contains(self):
+        elements = [2, 4, 6, 8]
+        hs = HashSet(elements)
+        assert hs.contains(2) is True
+        assert hs.contains(4) is True
+        assert hs.contains(8) is True
+        assert hs.contains(20) is False
 
-    def DISABLED_test_set_and_get(self):
-        ht = HashTable()
-        ht.set('I', 1)
-        ht.set('V', 5)
-        ht.set('X', 10)
-        assert ht.get('I') == 1
-        assert ht.get('V') == 5
-        assert ht.get('X') == 10
-        assert ht.length() == 3
-        assert ht.size == 3
-        with self.assertRaises(KeyError):
-            ht.get('A')  # Key does not exist
+    def test_add_and_remove(self):
+        elements = [1, 2, 3]
+        hs = HashSet(elements)
+        hs.add(4)
+        hs.add(5)
+        hs.add(6)
+        hs.add(7)
+        assert hs.contains(2) is True
+        assert hs.contains(4) is True
+        assert hs.contains(5) is True
+        assert hs.contains(6) is True
+        assert hs.contains(7) is True
+        assert hs.contains(21) is False
+        hs.remove(7)
+        assert hs.contains(7) is False
+        hs.remove(6)
+        assert hs.contains(6) is False
+        hs.remove(5)
+        assert hs.contains(5) is False
+        hs.remove(4)
+        assert hs.contains(4) is False
+        assert hs.size() == 3
 
-    def DISABLED_test_set_twice_and_get(self):
-        ht = HashTable()
-        ht.set('I', 1)
-        ht.set('V', 4)
-        ht.set('X', 9)
-        assert ht.length() == 3
-        assert ht.size == 3
-        ht.set('V', 5)  # Update value
-        ht.set('X', 10)  # Update value
-        assert ht.get('I') == 1
-        assert ht.get('V') == 5
-        assert ht.get('X') == 10
-        assert ht.length() == 3  # Check length is not overcounting
-        assert ht.size == 3  # Check size is not overcounting
+    def test_union(self):
+        set_one = [0, 1, 2, 3, 4, 5]
+        set_two = [3, 4, 5, 6, 7, 8]
+        hs_one = HashSet(set_one)
+        hs_two = HashSet(set_two)
+        assert hs_one.size() == 6
+        assert hs_two.size() == 6
+        assert len(hs_one.union(hs_two)) == 9
+        assert hs_one.union(hs_two) == [0, 1, 2, 3, 4, 5, 6, 7, 8]
 
-    def DISABLED_test_delete(self):
-        ht = HashTable()
-        ht.set('I', 1)
-        ht.set('V', 5)
-        ht.set('X', 10)
-        assert ht.length() == 3
-        assert ht.size == 3
-        ht.delete('I')
-        ht.delete('X')
-        assert ht.length() == 1
-        assert ht.size == 1
-        with self.assertRaises(KeyError):
-            ht.delete('X')  # Key no longer exists
-        with self.assertRaises(KeyError):
-            ht.delete('A')  # Key does not exist
+    def test_intersection(self):
+        set_one = [0, 1, 2, 3, 4, 5]
+        set_two = [3, 4, 5, 6, 7, 8]
+        hs_one = HashSet(set_one)
+        hs_two = HashSet(set_two)
+        assert hs_one.size() == 6
+        assert hs_two.size() == 6
+        assert len(hs_one.intersection(hs_two)) == 3
+        assert hs_one.intersection(hs_two) == [3, 4, 5]
 
-    def DISABLED_test_keys(self):
-        ht = HashTable()
-        assert ht.keys() == []
-        ht.set('I', 1)
-        assert ht.keys() == ['I']
-        ht.set('V', 5)
-        self.assertItemsEqual(ht.keys(), ['I', 'V'])  # Ignore item order
-        ht.set('X', 10)
-        self.assertItemsEqual(ht.keys(), ['I', 'V', 'X'])  # Ignore item order
+    def test_difference(self):
+        set_one = [0, 1, 2, 3, 4, 5]
+        set_two = [3, 4, 5, 6, 7, 8]
+        hs_one = HashSet(set_one)
+        hs_two = HashSet(set_two)
+        assert hs_one.size() == 6
+        assert hs_two.size() == 6
+        assert len(hs_one.difference(hs_two)) == 6
+        assert hs_one.difference(hs_two) == [0, 1, 2, 6, 7, 8]
 
-    def DISABLED_test_values(self):
-        ht = HashTable()
-        assert ht.values() == []
-        ht.set('I', 1)
-        assert ht.values() == [1]
-        ht.set('V', 5)
-        self.assertItemsEqual(ht.values(), [1, 5])  # Ignore item order
-        ht.set('X', 10)
-        self.assertItemsEqual(ht.values(), [1, 5, 10])  # Ignore item order
-
-    def DISABLED_test_items(self):
-        ht = HashTable()
-        assert ht.items() == []
-        ht.set('I', 1)
-        assert ht.items() == [('I', 1)]
-        ht.set('V', 5)
-        self.assertItemsEqual(ht.items(), [('I', 1), ('V', 5)])
-        ht.set('X', 10)
-        self.assertItemsEqual(ht.items(), [('I', 1), ('V', 5), ('X', 10)])
+    def test_is_subset(self):
+        set_one = [0, 1, 2, 3, 4, 5]
+        set_two = [3, 4, 5]
+        hs_one = HashSet(set_one)
+        hs_two = HashSet(set_two)
+        assert hs_one.is_subset(hs_two) is False
+        assert hs_two.is_subset(hs_one) is True
 
 
 if __name__ == '__main__':

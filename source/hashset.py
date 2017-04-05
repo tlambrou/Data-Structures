@@ -31,7 +31,7 @@ class HashSet(object):
             union.set(key=element, value=None)
         for element in set_two:
             union.set(key=element, value=None)
-        return union.keys()
+        return sorted(union.keys())
 
     def intersection(self, other_set):
         intersect = HashTable()
@@ -39,27 +39,30 @@ class HashSet(object):
         for element in set_one:
             if other_set.set.contains(element) is True:
                 intersect.set(key=element, value=None)
-        return intersect.keys()
+        return sorted(intersect.keys())
 
     def difference(self, other_set):
         difference = HashTable()
         set_one = self.set.keys()
+        set_two = other_set.set.keys()
         for element in set_one:
             if other_set.set.contains(element) is False:
                 difference.set(key=element, value=None)
-        return difference.keys()
+        for element in set_two:
+            if self.set.contains(element) is False:
+                difference.set(key=element, value=None)
+        return sorted(difference.keys())
 
     def is_subset(self, other_set):
-        set_two = other_set.set.keys()
+        set_one = self.set.keys()
         count = 0
-        for element in set_two:
-            if self.contains(element):
+        for element in set_one:
+            if other_set.contains(element):
                 count += 1
             else:
                 return False
-        if count == len(set_two):
+        if count == len(set_one):
             return True
-
 
 
 if __name__ == '__main__':
