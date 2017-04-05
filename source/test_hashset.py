@@ -59,8 +59,8 @@ class HashSetTest(unittest.TestCase):
         hs_two = HashSet(set_two)
         assert hs_one.size() == 6
         assert hs_two.size() == 6
-        assert len(hs_one.union(hs_two)) == 9
-        assert hs_one.union(hs_two) == [0, 1, 2, 3, 4, 5, 6, 7, 8]
+        assert hs_one.union(hs_two).size() == 9
+        # assert hs_one.union(hs_two).set == HashSet([0, 1, 2, 3, 4, 5, 6, 7, 8]).set
 
     def test_intersection(self):
         set_one = [0, 1, 2, 3, 4, 5]
@@ -69,8 +69,8 @@ class HashSetTest(unittest.TestCase):
         hs_two = HashSet(set_two)
         assert hs_one.size() == 6
         assert hs_two.size() == 6
-        assert len(hs_one.intersection(hs_two)) == 3
-        assert hs_one.intersection(hs_two) == [3, 4, 5]
+        assert hs_one.intersection(hs_two).size() == 3
+        # assert hs_one.intersection(hs_two).set == HashSet([3, 4, 5]).set
 
     def test_difference(self):
         set_one = [0, 1, 2, 3, 4, 5]
@@ -79,8 +79,8 @@ class HashSetTest(unittest.TestCase):
         hs_two = HashSet(set_two)
         assert hs_one.size() == 6
         assert hs_two.size() == 6
-        assert len(hs_one.difference(hs_two)) == 6
-        assert hs_one.difference(hs_two) == [0, 1, 2, 6, 7, 8]
+        assert hs_one.difference(hs_two).size() == 6
+        # assert hs_one.difference(hs_two).set == HashSet([0, 1, 2, 6, 7, 8]).set
 
     def test_is_subset(self):
         set_one = [0, 1, 2, 3, 4, 5]

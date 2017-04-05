@@ -75,6 +75,10 @@ class HashTable(object):
             all_items.extend(bucket.items())   # O(l)
         return all_items  # O(1)
 
+    def __iter__(self):
+        for key in self.keys():
+            yield key
+
     def length(self):   # O(n)
         """Return the number of key-value entries by traversing its buckets"""
         # Count number of key-value entries in each of the buckets

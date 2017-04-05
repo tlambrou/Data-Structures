@@ -8,8 +8,13 @@ class HashSet(object):
 
     def __init__(self, elements=None):
         self.set = HashTable()
-        for element in elements:
-            self.set.set(key=element, value=None)
+        if elements is not None:
+            for element in elements:
+                self.set.set(key=element, value=None)
+
+    def __iter__(self):
+        for key in self.set.keys():
+            yield key
 
     def size(self):
         return self.set.size
@@ -24,45 +29,43 @@ class HashSet(object):
         self.set.delete(element)
 
     def union(self, other_set):
-        union = HashTable()
+        union = HashSet()
         set_one = self.set.keys()
         set_two = other_set.set.keys()
         for element in set_one:
-            union.set(key=element, value=None)
+        # This works if HashTable implements a __iter__ method
+        # for element in self.set:
+            union.add(element)
         for element in set_two:
-            union.set(key=element, value=None)
-        return sorted(union.keys())
+            union.add(element)
+        return union
 
     def intersection(self, other_set):
-        intersect = HashTable()
+        intersect = HashSet()
         set_one = self.set.keys()
         for element in set_one:
             if other_set.set.contains(element) is True:
-                intersect.set(key=element, value=None)
-        return sorted(intersect.keys())
+                intersect.add(element)
+        return intersect
 
     def difference(self, other_set):
-        difference = HashTable()
+        difference = HashSet()
         set_one = self.set.keys()
         set_two = other_set.set.keys()
         for element in set_one:
             if other_set.set.contains(element) is False:
-                difference.set(key=element, value=None)
+                difference.add(element)
         for element in set_two:
             if self.set.contains(element) is False:
-                difference.set(key=element, value=None)
-        return sorted(difference.keys())
+                difference.add(element)
+        return difference
 
     def is_subset(self, other_set):
         set_one = self.set.keys()
-        count = 0
         for element in set_one:
-            if other_set.contains(element):
-                count += 1
-            else:
+            if other_set.contains(element) is False:
                 return False
-        if count == len(set_one):
-            return True
+        return True
 
 
 if __name__ == '__main__':
