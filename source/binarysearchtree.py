@@ -8,6 +8,7 @@ class BinaryNode(object):
         self.left = None
         self.right = None
 
+
     def __repr__(self):
         """Return a string representation of this node"""
         return 'Node({})'.format(repr(self.data))
@@ -22,17 +23,19 @@ class BinaryNode(object):
 
     def is_internal(self):
         """Check if the node is internal (has at least one child)"""
-        return !self.is_leaf()
+        return (not self.is_leaf())
 
     def height(self):
         """Return the number of edges on the longest downward path from this
         node to a descendant leaf node"""
         # TODO: Check if left child has a value and if so calculate its height
-        left_height = ... if self.left is not None else -1
+        # left_height = ... if self.left is not None else -1
+        
         # TODO: Check if right child has a value and if so calculate its height
-        right_height = ... if self.right is not None else -1
+        # right_height = ... if self.right is not None else -1
         # Return one more than the greater of the left height and right height
-        return 1 + max(left_height, right_height)
+        # return 1 + max(left_height, right_height)
+        pass
 
     def is_single_baby_daddy(self):
         """Returns True if node has one child and returns False otherwise"""
@@ -61,9 +64,9 @@ class BinarySearchTree(object):
         """Initialize this binary search tree; append the given items, if any"""
         self.root = None
         self.size = 0
-        if iterable:
+        if iterable is not None:
             for item in iterable:
-                self.append(item)
+                self.insert(item)
 
     def is_empty(self):
         """"Return True if binary search tree is empty, False if not."""
@@ -75,7 +78,8 @@ class BinarySearchTree(object):
     def insert(self, data):
         """Insert a new node with data in order in the tree"""
         if self.is_empty():
-            self.root.data = data
+            self.root = BinaryNode(data)
+            self.size += 1
             return
         current = self.root
         inserted = False
@@ -84,32 +88,34 @@ class BinarySearchTree(object):
                 if current.right is None:
                     current.right = BinaryNode(data)
                     inserted = True
+                    self.size += 1
                 else:
                     current = current.right
             elif data < current.data:
                 if current.left is None:
                     current.left = BinaryNode(data)
                     inserted = True
+                    self.size += 1
                 else:
                     current = current.left
 
     def search(self, data):
         """Check if a node with data is present in the tree"""
         if self.is_empty():
-            return False
+            return None
         current = self.root
         while current.is_leaf() is False:
             if current.data == data:
-                return True
+                return current.data
             else:
                 if data > current.data:
                     current = current.right
                 elif data < current.data:
                     current = current.left
         if current.data == data:
-            return True
+            return current.data
         else:
-            return False
+            return None
 
     def delete(self, data):
         """Remove the node with data from the tree"""
@@ -126,6 +132,7 @@ class BinarySearchTree(object):
             if target is self.root:
                 # Remove the root and return
                 self.root = None
+                self.size -= 1
                 return
             # Otherwise...
             else:
@@ -135,22 +142,28 @@ class BinarySearchTree(object):
                 if parent.right is target:
                     # Delete the node on the right and return
                     parent.right = None
+                    self.size -= 1
                     return
                 elif parent.left is target:
                     # Delete the node on the left and return
                     parent.left = None
+                    self.size -= 1
                     return
                 else:
                     raise ValueError('Something went wrong when finding the target and its parent')
         # 2nd case: target node has 1 child
-        elif target.is_single_baby_daddy()):
+        elif target.is_single_baby_daddy():
             # If the target is also the root...
             if target is self.root:
                 # Find which child exists and make it the new root
                 if target.right is None:
                     self.root = target.left
+                    self.size -= 1
+                    return
                 elif target.left is None:
                     self.root = target.right
+                    self.size -= 1
+                    return
             else:
                 # Otherwise find the parent node
                 parent = self.find_parent_node(target)
@@ -160,10 +173,12 @@ class BinarySearchTree(object):
                     if target.left is None:
                         # Point the parent to the target's child
                         parent.right = target.right
+                        self.size -= 1
                         return
                     elif target.right is None:
                         # Point the parent to the target's child
                         parent.right = target.left
+                        self.size -= 1
                         return
                 # If the target is to the left of the parent
                 elif parent.left is target:
@@ -171,10 +186,12 @@ class BinarySearchTree(object):
                     if target.left is None:
                         # Point the parent to the target's child
                         parent.left = target.right
+                        self.size -= 1
                         return
                     elif target.right is None:
                         # Point the parent to the target's child
                         parent.left = target.left
+                        self.size -= 1
                         return
         # 3rd Case: target has 2 children
         elif target.is_double_baby_daddy():
@@ -190,6 +207,8 @@ class BinarySearchTree(object):
                     iop.right = target.right
                     # Promote IOP to the root
                     self.root = iop
+                    self.size -= 1
+                    return
                 # Otherwise, if the IOP must be a right child of the target.left
                 else:
                     # Point the IOP parent's right edge to the IOP's left node
@@ -199,6 +218,7 @@ class BinarySearchTree(object):
                     iop.right = target.right
                     # Finally make the IOP the tree's root
                     self.root = iop
+                    self.size -= 1
                     return
             # Otherwise (target is NOT the root)
             else:
@@ -214,9 +234,13 @@ class BinarySearchTree(object):
                     if parent.right is target:
                         # If right point it to the iop
                         parent.right = iop
+                        self.size -= 1
+                        return
                     elif parent.left is target:
                         # If left point it to the iop
                         parent.left = iop
+                        self.size -= 1
+                        return
                 else:
                     # Find the IOP's parent
                     iop_parent = self.find_parent_node(iop)
@@ -228,9 +252,12 @@ class BinarySearchTree(object):
                     # Determine which branch the target is to the parent and set it to the iop
                     if parent.right is target:
                         parent.right = iop
+                        self.size -= 1
+                        return
                     elif parent.left is target:
                         parent.left = iop
-                    return
+                        self.size -= 1
+                        return
 
 
     def find_node(self, data):
