@@ -36,6 +36,16 @@ class BinaryNode(object):
 
     def is_single_baby_daddy(self):
         """Returns True if node has one child and returns False otherwise"""
+        count = 0
+        if self.left is not None:
+            count += 1
+        if self.right is not None:
+            count += 1
+        if count == 1:
+            return True
+        else:
+            return False
+
 
     def is_double_baby_daddy(self):
         """Returns True if node has two children and returns False otherwise"""
