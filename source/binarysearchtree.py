@@ -1,5 +1,7 @@
 #!python
 
+from queue import LinkedQueue, ArrayQueue
+
 class BinaryNode(object):
 
     def __init__(self, data=None):
@@ -30,7 +32,7 @@ class BinaryNode(object):
         node to a descendant leaf node"""
         # TODO: Check if left child has a value and if so calculate its height
         # left_height = ... if self.left is not None else -1
-        
+
         # TODO: Check if right child has a value and if so calculate its height
         # right_height = ... if self.right is not None else -1
         # Return one more than the greater of the left height and right height
@@ -313,11 +315,14 @@ class BinarySearchTree(object):
         if items is None:
             items = list()
         # TODO: Traverse left subtree, if it exists
-        ...
+        if node is not None:
+            if node.left is not None:
+                self.items_in_order(node.left, items)
         # TODO: Add this node's data to the items list
-        ...
+            items.append(node.data)
         # TODO: Traverse right subtree, if it exists
-        ...
+            if node.right is not None:
+                self.items_in_order(node.right, items)
         # Return the items list to the original caller
         return items
 
@@ -330,11 +335,14 @@ class BinarySearchTree(object):
         if items is None:
             items = list()
         # TODO: Add this node's data to the items list
-        ...
+        if node is not None:
+            items.append(node.data)
         # TODO: Traverse left subtree, if it exists
-        ...
+            if node.left is not None:
+                self.items_pre_order(node.left, items)
         # TODO: Traverse right subtree, if it exists
-        ...
+            if node.right is not None:
+                self.items_pre_order(node.right, items)
         # Return the items list to the original caller
         return items
 
@@ -347,11 +355,14 @@ class BinarySearchTree(object):
         if items is None:
             items = list()
         # TODO: Traverse left subtree, if it exists
-        ...
+        if node is not None:
+            if node.left is not None:
+                self.items_post_order(node.left, items)
         # TODO: Traverse right subtree, if it exists
-        ...
+            if node.right is not None:
+                self.items_post_order(node.right, items)
         # TODO: Add this node's data to the items list
-        ...
+            items.append(node.data)
         # Return the items list to the original caller
         return items
 
@@ -359,24 +370,24 @@ class BinarySearchTree(object):
         """Return a list of all items in this binary search tree found using
         level-order traversal"""
         # TODO: Create a queue to store nodes not yet traversed in level-order
-        queue = ...
+        queue = LinkedQueue()
         # Create an items list
         items = list()
         # TODO: Enqueue the root node if this tree is not empty
-        if ...:
-            queue...
+        if self.root is not None:
+            queue.enqueue(self.root)
         # TODO: Loop until the queue is empty
-        while ...:
+        while queue.length() > 0:
             # TODO: Dequeue the node at the front of the queue
-            node = ...
+            node = queue.dequeue()
             # TODO: Add this node's data to the items list
-            ...
+            items.append(node.data)
             # TODO: Enqueue this node's left child if it exists
-            if ...:
-                ...
+            if node.left is not None:
+                queue.enqueue(node.left)
             # TODO: Enqueue this node's right child if it exists
-            if ...:
-                ...
+            if node.right is not None:
+                queue.enqueue(node.right)
         # Return the items list
         return items
 
