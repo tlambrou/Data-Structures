@@ -85,7 +85,7 @@ class BinarySearchTree(object):
         current = self.root
         inserted = False
         while inserted is False:
-            if data > current.data:
+            if data >= current.data:
                 if current.right is None:
                     current.right = BinaryNode(data)
                     inserted = True
