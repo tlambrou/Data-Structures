@@ -4,24 +4,24 @@ from queue import LinkedQueue, ArrayQueue
 
 class BinaryNode(object):
 
-    def __init__(self, data=None):
+    def __init__(self, data=None):  # O(1)
         """Initialize this node with the given data"""
-        self.data = data
-        self.left = None
-        self.right = None
+        self.data = data  # O(1)
+        self.left = None  # O(1)
+        self.right = None  # O(1)
 
 
-    def __repr__(self):
+    def __repr__(self):  # O(1)
         """Return a string representation of this node"""
-        return 'Node({})'.format(repr(self.data))
+        return 'Node({})'.format(repr(self.data))  # O(1)
 
-    def is_leaf(self):
+    def is_leaf(self):  # O(1)
         """Check if the node is a leaf (has no children)"""
-        if self.left is not None:
-            return False
-        if self.right is not None:
-            return False
-        return True
+        if self.left is not None:  # O(1)
+            return False  # O(1)
+        if self.right is not None:  # O(1)
+            return False  # O(1)
+        return True  # O(1)
 
     def is_internal(self):
         """Check if the node is internal (has at least one child)"""
