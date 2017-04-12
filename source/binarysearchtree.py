@@ -51,7 +51,6 @@ class BinaryNode(object):
         else:
             return False
 
-
     def is_double_baby_daddy(self):
         """Returns True if node has two children and returns False otherwise"""
         if self.left is None:
