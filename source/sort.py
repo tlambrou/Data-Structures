@@ -1,6 +1,6 @@
 #!python
 
-from binarysearchtree import BinarySearchTree
+from binarysearchtree import BinarySearchTree, TreeMap
 
 def bubble_sort(array):  # O(n^2-n)
     in_order = False  # O(1)
@@ -31,5 +31,8 @@ def insertion_sort(array):  # O(n*log(n))
 
 def tree_sort(array):
     tree = BinarySearchTree(array)  # O(1)
-    print(tree)
     return tree.items_in_order()
+
+def counting_sort(array):
+    treemap = TreeMap(array)
+    return treemap.get_in_order_list()

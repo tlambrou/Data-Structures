@@ -424,6 +424,93 @@ def test_binary_search_tree():
     print('items post-order:  ' + str(bst.items_post_order()))
     print('items level-order: ' + str(bst.items_level_order()))
 
+class TreeMap(object):
+
+    def __init__(self, iterable=None):
+        self.tree = BinarySearchTree()
+        self.root = None
+        self.size = 0
+        if iterable is not None:
+            for item in iterable:
+                self.insert(item)
+
+    def insert(self, data):
+        print("inserted!")
+        if self.tree.is_empty():
+            tup = (data, 1)
+            self.tree.insert(tup)
+            self.root = self.tree.root
+            self.size = self.tree.size
+        node = self.search(data)
+        current = self.tree.root
+        if node is None:
+            inserted = False
+            tup = (data, 1)
+            while inserted is False:
+                if data >= current.data[0]:
+                    if current.right is None:
+                        current.right = BinaryNode(tup)
+                        inserted = True
+                        self.size += 1
+                        self.tree.size += 1
+                    else:
+                        current = current.right
+                elif data < current.data[0]:
+                    if current.left is None:
+                        current.left = BinaryNode(tup)
+                        inserted = True
+                        self.size += 1
+                        self.tree.size += 1
+        elif node is not None:
+            updated = False
+            new_freq = node.data[1] + 1
+            tup = (data, new_freq)
+            node.data = tup
+
+    def items_in_order(self, node=None, items=None):
+        """Return a list of all items in this binary search tree found using
+        in-order traversal starting at the given node after the given items"""
+        # Set up starting node and items list if not given
+        if node is None:
+            node = self.tree.root
+        if items is None:
+            items = list()
+        # TODO: Traverse left subtree, if it exists
+        if node is not None:
+            if node.left is not None:
+                self.items_in_order(node.left, items)
+        # TODO: Add this node's data to the items list
+            freq = node.data[1]
+            for i in range(0, freq):
+                items.append(node.data[0])
+        # TODO: Traverse right subtree, if it exists
+            if node.right is not None:
+                self.items_in_order(node.right, items)
+        # Return the items list to the original caller
+        return items
+
+
+    def get_in_order_list(self):
+        return self.items_in_order()
+
+
+    def search(self, data):
+        if self.tree.is_empty():
+            return None
+        current = self.root
+        while current.is_leaf() is False:
+            if current.data[0] == data:
+                return current
+            else:
+                if data > current.data[0]:
+                    current = current.right
+                elif data < current.data[0]:
+                    current = current.left
+        if current.data[0] == data:
+            return current
+        else:
+            return None
+
 
 if __name__ == '__main__':
     test_binary_search_tree()

@@ -22,5 +22,10 @@ class TestSort(unittest.TestCase):
         array = [7, 5, 1, 8, 3, 4, 4, 7, 3, 6, 2, 1, 8, 9, 0, 6]
         assert sort.tree_sort(array) == [0, 1, 1, 2, 3, 3, 4, 4, 5, 6, 6, 7, 7, 8, 8, 9]
 
+    def test_counting_sort(self):
+        array = [7, 5, 1, 8, 3, 4, 4, 7, 3, 6, 2, 1, 8, 9, 0, 6]
+        assert sort.counting_sort(array) == [0, 1, 1, 2, 3, 3, 4, 4, 5, 6, 6, 7, 7, 8, 8, 9]
+
+
 if __name__ == '__main__':
     unittest.main()
