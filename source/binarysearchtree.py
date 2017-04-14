@@ -428,20 +428,25 @@ class TreeMap(object):
 
     def __init__(self, iterable=None):
         self.tree = BinarySearchTree()
-        self.root = None
-        self.size = 0
+        self.root = self.tree.root
+        self.size = self.tree.size
         if iterable is not None:
             for item in iterable:
                 self.insert(item)
 
     def insert(self, data):
-        print("inserted!")
+        print("inserted!", data)
         if self.tree.is_empty():
             tup = (data, 1)
             self.tree.insert(tup)
             self.root = self.tree.root
             self.size = self.tree.size
-        node = self.search(data)
+        if self.root.data[0] == data:
+            new_freq = node.data[1] + 1
+            tup = (data, new_freq)
+            node.data = tup
+            return
+        node = self.find_parent_node(data)
         current = self.tree.root
         if node is None:
             inserted = False
@@ -452,6 +457,7 @@ class TreeMap(object):
                         current.right = BinaryNode(tup)
                         inserted = True
                         self.size += 1
+                        print("inserted on the right", self.tree.items_in_order())
                         self.tree.size += 1
                     else:
                         current = current.right
@@ -460,12 +466,41 @@ class TreeMap(object):
                         current.left = BinaryNode(tup)
                         inserted = True
                         self.size += 1
+                        print("inserted on the left", self.tree.items_in_order())
                         self.tree.size += 1
+                    else:
+                        current = current.left
         elif node is not None:
-            updated = False
+            print("Returned with a node", node.data)
             new_freq = node.data[1] + 1
             tup = (data, new_freq)
             node.data = tup
+            print("Updated the frequency", self.tree.items_in_order())
+
+    def find_parent_node(self, data):
+        if self.tree.is_empty():
+            return None
+        current = self.root
+        if current.data[0] is data:
+            raise ValueError('Data found in root node')
+        while current.is_leaf() is False:
+            if data > current.data[0]:
+                if current.right is not None:
+                    if current.right.data is data:
+                        return current
+                    else:
+                        current = current.right
+                else:
+                    return None
+            elif data < current.data[0]:
+                if current.left is not None:
+                    if current.left.data is data:
+                        return current
+                    else:
+                        current = current.left
+                else:
+                    return None
+        return None
 
     def items_in_order(self, node=None, items=None):
         """Return a list of all items in this binary search tree found using
@@ -491,6 +526,7 @@ class TreeMap(object):
 
 
     def get_in_order_list(self):
+        print("Get in-order List")
         return self.items_in_order()
 
 
@@ -502,15 +538,24 @@ class TreeMap(object):
             if current.data[0] == data:
                 return current
             else:
-                if data > current.data[0]:
+                if data > current.data[0] and current.right is not None:
                     current = current.right
-                elif data < current.data[0]:
+                    print("Current was less than the data", current.data, current.right)
+                elif data < current.data[0] and current.left is not None:
                     current = current.left
+                    print("Current was greater than the data", current.data, current.left)
+
         if current.data[0] == data:
             return current
         else:
             return None
 
+def test_tree_map():
+    array = [7, 5, 1, 8, 3, 4, 4, 7, 3, 6, 2, 1, 8, 9, 0, 6]
+    treemap = TreeMap(array)
+    assert treemap.get_in_order_list() == [0, 1, 1, 2, 3, 3, 4, 4, 5, 6, 6, 7, 7, 8, 8, 9]
 
 if __name__ == '__main__':
     test_binary_search_tree()
+    print("---BEGIN TREEMAP---")
+    test_tree_map()
