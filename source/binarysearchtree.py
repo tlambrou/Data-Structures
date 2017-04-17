@@ -435,58 +435,62 @@ class TreeMap(object):
                 self.insert(item)
 
     def insert(self, data):
-        print("inserted!", data)
         if self.tree.is_empty():
             tup = (data, 1)
             self.tree.insert(tup)
             self.root = self.tree.root
             self.size = self.tree.size
-        if self.root.data[0] == data:
-            new_freq = node.data[1] + 1
-            tup = (data, new_freq)
-            node.data = tup
             return
-        node = self.find_parent_node(data)
-        current = self.tree.root
-        if node is None:
-            inserted = False
-            tup = (data, 1)
-            while inserted is False:
-                if data >= current.data[0]:
-                    if current.right is None:
-                        current.right = BinaryNode(tup)
-                        inserted = True
-                        self.size += 1
-                        print("inserted on the right", self.tree.items_in_order())
-                        self.tree.size += 1
-                    else:
-                        current = current.right
-                elif data < current.data[0]:
-                    if current.left is None:
-                        current.left = BinaryNode(tup)
-                        inserted = True
-                        self.size += 1
-                        print("inserted on the left", self.tree.items_in_order())
-                        self.tree.size += 1
-                    else:
-                        current = current.left
-        elif node is not None:
-            print("Returned with a node", node.data)
-            new_freq = node.data[1] + 1
+        elif self.root.data[0] == data:
+            new_freq = self.root.data[1] + 1
             tup = (data, new_freq)
-            node.data = tup
-            print("Updated the frequency", self.tree.items_in_order())
+            self.root.data = tup
+            return
+        else:
+            node = self.find_parent_node(data)
+            current = self.tree.root
+            if node is None:
+                inserted = False
+                tup = (data, 1)
+                while inserted is False:
+                    if data > current.data[0]:
+                        if current.right is None:
+                            current.right = BinaryNode(tup)
+                            inserted = True
+                            self.size += 1
+                            self.tree.size += 1
+                            return
+                        else:
+                            current = current.right
+                    elif data <= current.data[0]:
+                        if current.left is None:
+                            current.left = BinaryNode(tup)
+                            inserted = True
+                            self.size += 1
+                            self.tree.size += 1
+                            return
+                        else:
+                            current = current.left
+            elif node is not None:
+                if node.data[0] < data:
+                    node = node.right
+                elif node.data[0] >= data:
+                    node = node.left
+                new_freq = (node.data[1]) + 1
+                tup = (data, new_freq)
+                node.data = tup
+        return
 
     def find_parent_node(self, data):
         if self.tree.is_empty():
             return None
         current = self.root
-        if current.data[0] is data:
+        if current.data[0] == data:
             raise ValueError('Data found in root node')
         while current.is_leaf() is False:
             if data > current.data[0]:
                 if current.right is not None:
-                    if current.right.data is data:
+                    if current.right.data[0] == data:
                         return current
                     else:
                         current = current.right
@@ -494,7 +498,7 @@ class TreeMap(object):
                     return None
             elif data < current.data[0]:
                 if current.left is not None:
-                    if current.left.data is data:
+                    if current.left.data[0] == data:
                         return current
                     else:
                         current = current.left
