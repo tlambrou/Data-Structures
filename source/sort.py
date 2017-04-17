@@ -42,13 +42,16 @@ def merge(list1, list2):
     index2 = 0
     result = []
     while len(result) is not (len(list1) + len(list2)):
+        # Check to see if we have finished sorting the first list
         if index1 == len(list1):
             for i in range(index2, len(list2)):
                 result.append(list2[i])
+        # Check to see if we have finished sorting the second list
         elif index2 == len(list2):
             for i in range(index1, len(list1)):
                 result.append(list1[i])
         else:
+        # Append the smaller element of each list
             if list1[index1] <= list2[index2]:
                 result.append(list1[index1])
                 index1 += 1
@@ -65,27 +68,20 @@ def merge_sort_nonrecursive(items):
     list2 = counting_sort(list2)
     return merge(list1, list2)
 
-def merge_sort_recursive(list1, list2=None):
-    if len(list1) == 1 and len(list2) == 1:
-        print("Merge condition met", list1, list2)
-        return merge(list1, list2)
+def merge_sort_recursive(list1):
+    # Check to see if the list is of length 1
+    if len(list1) <= 1:  # Base case
+        # Return the input as-is (it's already sorted!)
+        return list1
     else:
-        if len(list1) != 1:
-            print("Len of list1 not 1 | Length: ", len(list1))
-            midpoint = len(list1) / 2
-            temp1 = list1[:midpoint]
-            print("Temp1: ", temp1)
-            temp2 = list1[midpoint:]
-            print("Temp2: ", temp2)
-            merged1 = merge_sort_recursive(temp1, temp2)
-        merged2 = []
-        if list2 is not None:
-            if len(list2) != 1:
-                print("Len of list2 not 1 | Length: ", len(list2))
-                midpoint = len(list2) / 2
-                temp1 = list2[:midpoint]
-                print("Temp1: ", temp1)
-                temp2 = list2[midpoint:]
-                print("Temp2: ", temp2)
-                merged2 = merge_sort_recursive(temp1, temp2)
-        return merge(merged1, merged2)
+        # 1. Divide: split input into two sublists of half size
+        midpoint = len(list1) / 2
+        temp1 = list1[:midpoint]
+        temp2 = list1[midpoint:]
+        # 2. Conquer: sort sublists recursively
+        sorted1 = merge_sort_recursive(temp1)
+        sorted2 = merge_sort_recursive(temp2)
+        # 3. Combine: merge two sorted sublists
+        # This is where the magic happens!
+        merged = merge(sorted1, sorted2)
+        return merged
