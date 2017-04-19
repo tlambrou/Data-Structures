@@ -68,16 +68,16 @@ def merge_sort_nonrecursive(items):
     list2 = counting_sort(list2)
     return merge(list1, list2)
 
-def merge_sort_recursive(list1):
+def merge_sort_recursive(items):
     # Check to see if the list is of length 1
-    if len(list1) <= 1:  # Base case
+    if len(items) <= 1:  # Base case
         # Return the input as-is (it's already sorted!)
-        return list1
+        return items
     else:
         # 1. Divide: split input into two sublists of half size
-        midpoint = len(list1) / 2
-        temp1 = list1[:midpoint]
-        temp2 = list1[midpoint:]
+        midpoint = len(items) / 2
+        temp1 = items[:midpoint]
+        temp2 = items[midpoint:]
         # 2. Conquer: sort sublists recursively
         sorted1 = merge_sort_recursive(temp1)
         sorted2 = merge_sort_recursive(temp2)
@@ -85,3 +85,46 @@ def merge_sort_recursive(list1):
         # This is where the magic happens!
         merged = merge(sorted1, sorted2)
         return merged
+
+def partition(items):  # Three-way partition scheme
+    print("Entered partition")
+    n = len(items) - 1
+    pivot = median([items[0], items[len(items)/2], items[n]])
+    i = 0
+    j = 0
+    while j <= n:
+        print(i, j, n, pivot)
+        print(items)
+        if items[j] < pivot:
+            items[i], items[j] = items[j], items[i]
+            i += 1
+            j += 1
+        elif items[j] > pivot:
+            items[j], items[n] = items[n], items[j]
+            n -= 1
+        else:
+            j += 1
+    lower = items[:n] if items[:n] is not None else []
+    upper = items[n:] if items[n:] is not None else []
+    return (lower, upper)
+
+def quick_sort(items):
+    print("Entered quick_sort")
+    if len(items) < 2:
+        return items
+    else:
+        result = partition(items)
+        if result[0] != None:
+            lower = quick_sort(result[0])
+            print(lower)
+        if result[1] != None:
+            upper = quick_sort(result[1])
+            print(upper)
+        return lower.append(upper)
+
+def median(items):
+    sorts = sorted(items)
+    length = len(sorts)
+    if not length % 2:
+        return (sorts[length / 2] + sorts[length / 2 - 1]) / 2.0
+    return sorts[length / 2]
