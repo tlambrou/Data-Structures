@@ -120,7 +120,7 @@ def quick_sort(items):
         if result[1] != None:
             upper = quick_sort(result[1])
             print(upper)
-        return lower.append(upper)
+        return lower.extend(upper)
 
 def median(items):
     sorts = sorted(items)
