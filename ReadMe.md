@@ -35,6 +35,20 @@
 
 ### [Class 14](Class14.md): Wednesday, April 19 – Priority Queue & Heap
 
+### [Class 15](Class15.md): Friday, April 21 – Sorting Algorithms Recap
+
+### [Class 16](Class16.md): Monday, May 1 – Graphs
+
+### [Class 17](Class17.md): Wednesday, May 3 – Graph Traversals & Components
+
+### [Class 18](Class18.md): Friday, May 5 – Graph Spanning Trees & Shortest Paths
+
+### [Class 19](Class19.md): Monday, May 8 – Rotating Binary Search Trees
+
+### [Class 20](Class20.md): Wednesday, May 10 – Trie & Multiple Key Trees
+
+### [Class 21](Class21.md): Friday, May 12 – Memoization & Dynamic Programming
+
 
 ## Working with this GitHub repository
 
